@@ -8,18 +8,18 @@ import (
 )
 
 // Config struct to hold all configuration variables
-type Config struct {
+type ServerConfig struct {
 	PORT string
 }
 
 // LoadConfig loads environment variables from the .env file
-func LoadConfig() *Config {
+func LoadServerConfig() *ServerConfig {
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatalf("Error loading .env file: %v", err)
 	}
 
-	config := &Config{
+	config := &ServerConfig{
 		PORT: getEnv("PORT", "8080"),
 	}
 

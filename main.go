@@ -10,17 +10,24 @@ import (
 )
 
 func main() {
-	cfg := config.LoadConfig()
+	cfg := config.LoadServerConfig()
 
 	r := gin.Default()
 
-	controllers.RegisterHealthRoutes(r)
-
 	// Start the server using the loaded configuration
+	registerRoutes(r)
+	startServer(cfg, r)
+}
+
+func startServer(cfg *config.ServerConfig, r *gin.Engine) {
 	port := cfg.PORT
 	if port == "" {
 		port = "8080"
 	}
 	fmt.Printf("Starting server on port %s\n", port)
 	r.Run(":" + port)
+}
+
+func registerRoutes(r *gin.Engine) {
+	controllers.RegisterHealthRoutes(r)
 }
