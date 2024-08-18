@@ -14,8 +14,10 @@ func main() {
 
 	r := gin.Default()
 
-	// Start the server using the loaded configuration
+	// Setup all controller routes
 	registerRoutes(r)
+
+	// Start the server using the loaded configuration
 	startServer(cfg, r)
 }
 
@@ -28,6 +30,8 @@ func startServer(cfg *config.ServerConfig, r *gin.Engine) {
 	r.Run(":" + port)
 }
 
+// Initialize all controllers
 func registerRoutes(r *gin.Engine) {
+	controllers.RegisterUserRoutes(r)
 	controllers.RegisterHealthRoutes(r)
 }

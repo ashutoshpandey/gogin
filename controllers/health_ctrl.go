@@ -8,13 +8,8 @@ import (
 	"github.com/ashutoshpandey/gogin/services"
 )
 
-func ReturnHealth(c *gin.Context, healthService services.HealthService) {
-	message := healthService.GetServerHealth()
-	c.JSON(http.StatusOK, gin.H{"message": message})
-}
-
 func RegisterHealthRoutes(router *gin.Engine) {
-	healthService := services.NewUserService()
+	healthService := services.NewHealthService()
 
 	healthRoutes := router.Group("/health")
 	{
@@ -22,4 +17,9 @@ func RegisterHealthRoutes(router *gin.Engine) {
 			ReturnHealth(c, healthService)
 		})
 	}
+}
+
+func ReturnHealth(c *gin.Context, healthService services.HealthService) {
+	message := healthService.GetServerHealth()
+	c.JSON(http.StatusOK, gin.H{"message": message})
 }

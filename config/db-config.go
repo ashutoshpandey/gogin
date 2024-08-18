@@ -9,6 +9,7 @@ import (
 // Config struct to hold all configuration variables
 type DbConfig struct {
 	HOST     string
+	PORT     string
 	USER     string
 	DATABASE string
 	PASSWORD string
@@ -22,10 +23,11 @@ func LoadDbConfig() *DbConfig {
 	}
 
 	config := &DbConfig{
-		HOST:     getEnv("HOST", ""),
-		USER:     getEnv("USER", ""),
-		DATABASE: getEnv("DATABASE", ""),
-		PASSWORD: getEnv("PASSWORD", ""),
+		HOST:     getEnv("DB_HOST", ""),
+		PORT:     getEnv("DB_HOST", ""),
+		USER:     getEnv("DB_USER", ""),
+		DATABASE: getEnv("DB_DATABASE", ""),
+		PASSWORD: getEnv("DB_PASSWORD", ""),
 	}
 
 	return config
