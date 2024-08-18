@@ -11,6 +11,7 @@ import (
 	"github.com/ashutoshpandey/gogin/config"
 	"github.com/ashutoshpandey/gogin/controllers"
 	"github.com/ashutoshpandey/gogin/db"
+	"github.com/ashutoshpandey/gogin/middlewares"
 	"github.com/ashutoshpandey/gogin/services"
 )
 
@@ -18,6 +19,9 @@ func main() {
 	cfg := config.LoadServerConfig()
 
 	r := gin.Default()
+
+	// Apply middleware globally
+	r.Use(middlewares.AuthMiddleware())
 
 	// Setup all controller routes
 	registerRoutes(r)

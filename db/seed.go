@@ -12,6 +12,18 @@ import (
 
 // SeedUsers seeds the database with initial user data
 func SeedUsers(db *gorm.DB) {
+	var userCount int64
+	// Count the number of existing users
+	if err := db.Model(&models.User{}).Count(&userCount).Error; err != nil {
+		log.Fatalf("Failed to count users: %v", err)
+	}
+
+	// If users already exist, skip seeding
+	if userCount > 0 {
+		fmt.Println("Users already exist, skipping seeding.")
+		return
+	}
+
 	fmt.Println("Running seed data")
 
 	// Example seed data

@@ -2,6 +2,7 @@ package services
 
 import (
 	"errors"
+	"fmt"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -33,14 +34,18 @@ func NewLoginService(dbService *DbService) *LoginService {
 func (loginService *LoginService) DoLogin(loginDto dtos.LoginDTO) (string, error) {
 	var user models.User
 
+	fmt.Printf("\nEmail = %s", loginDto.Email)
+	fmt.Printf("\nPassword = %s", loginDto.Password)
+
 	// Find the user by email
-	if err := loginService.dbService.DB.Where("email = ?", loginDto.Email).First(&user).Error; err != nil {
-		return "", errors.New("invalid email or password")
+	if err := loginService.dbService.DB.Where("LOWER(email) = ?", loginDto.Email).First(&user).Error; err != nil {
+		fmt.Println(err)
+		return "", errors.New("invalid email")
 	}
 
 	// Check the password
-	if err := bcrypt.CompareHashAndPassword([]byte(loginDto.Password), []byte(user.Password)); err != nil {
-		return "", errors.New("invalid email or password")
+	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(loginDto.Password)); err != nil {
+		return "", errors.New("invalid password")
 	}
 
 	// Generate a JWT

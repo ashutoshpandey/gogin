@@ -10,17 +10,18 @@ import (
 )
 
 func RegisterAuthRoutes(router *gin.Engine) {
-	loginService := services.NewHealthService()
+	dbService := services.NewDBService()
+	loginService := services.NewLoginService(dbService)
 
 	loginRoutes := router.Group("/auth")
 	{
 		loginRoutes.POST("/login", func(c *gin.Context) {
-			ReturnHealth(c, loginService)
+			DoLogin(c, loginService)
 		})
 	}
 }
 
-func DoLogin(c *gin.Context, loginService services.LoginService) {
+func DoLogin(c *gin.Context, loginService *services.LoginService) {
 	var loginDTO dtos.LoginDTO
 	if err := c.ShouldBindJSON(&loginDTO); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})

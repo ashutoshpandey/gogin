@@ -1,4 +1,4 @@
-package middleware
+package middlewares
 
 import (
 	"net/http"
@@ -21,7 +21,7 @@ func AuthMiddleware() gin.HandlerFunc {
 		// Ignore public urls that don't require jwt authentication
 		requestPath := c.Request.URL.Path
 		for _, url := range publicUrls {
-			if strings.HasPrefix(requestPath, url) {
+			if strings.Contains(requestPath, url) {
 				// If the URL is public, skip authentication
 				c.Next()
 				return
