@@ -10,6 +10,7 @@ import (
 type User struct {
 	gorm.Model
 	Name        string    `gorm:"type:varchar(100)"`
+	Password    string    `gorm:"type:varchar(512)"`
 	Email       string    `gorm:"type:varchar(100);unique_index"`
 	DateOfBirth time.Time `gorm:"type:date"`
 }
