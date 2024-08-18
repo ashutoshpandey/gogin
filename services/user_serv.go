@@ -44,7 +44,7 @@ func (userService *UserService) CreateUser(userDto dtos.CreateUserDTO) (*models.
 }
 
 // GetUsers returns a list of users with pagination
-func (userService *UserService) GetUsers(pageNumber, pageSize int) ([]models.User, int64, error) {
+func (userService *UserService) GetUsers(pageNumber, pageSize int) ([]dtos.UserDTO, int64, error) {
 	var total int64
 	var users []models.User
 
@@ -63,5 +63,15 @@ func (userService *UserService) GetUsers(pageNumber, pageSize int) ([]models.Use
 		return nil, 0, err
 	}
 
-	return users, total, nil
+	var userDTOs []dtos.UserDTO
+	for _, user := range users {
+		userDTO := dtos.UserDTO{
+			Name:        user.Name,
+			Email:       user.Email,
+			DateOfBirth: user.DateOfBirth.Format("2006-01-02"), // Assuming your User model stores DateOfBirth as time.Time
+		}
+		userDTOs = append(userDTOs, userDTO)
+	}
+
+	return userDTOs, total, nil
 }
