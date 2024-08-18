@@ -10,9 +10,24 @@ import (
 	"github.com/ashutoshpandey/gogin/config"
 )
 
+var publicUrls = []string{
+	"login",
+	"register",
+}
+
 // AuthMiddleware checks for a valid JWT in the Authorization header
 func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		// Ignore public urls that don't require jwt authentication
+		requestPath := c.Request.URL.Path
+		for _, url := range publicUrls {
+			if strings.HasPrefix(requestPath, url) {
+				// If the URL is public, skip authentication
+				c.Next()
+				return
+			}
+		}
+
 		// Get the Authorization header
 		authHeader := c.GetHeader("Authorization")
 

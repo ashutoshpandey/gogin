@@ -10,6 +10,8 @@ import (
 
 	"github.com/ashutoshpandey/gogin/config"
 	"github.com/ashutoshpandey/gogin/controllers"
+	"github.com/ashutoshpandey/gogin/db"
+	"github.com/ashutoshpandey/gogin/services"
 )
 
 func main() {
@@ -19,6 +21,9 @@ func main() {
 
 	// Setup all controller routes
 	registerRoutes(r)
+
+	// Run seed data
+	seedDb()
 
 	// Start the server using the loaded configuration
 	setupServer(cfg, r)
@@ -45,6 +50,15 @@ func setupServer(cfg *config.ServerConfig, r *gin.Engine) {
 
 // Initialize all controllers
 func registerRoutes(r *gin.Engine) {
+	controllers.RegisterAuthRoutes(r)
 	controllers.RegisterUserRoutes(r)
 	controllers.RegisterHealthRoutes(r)
+}
+
+func seedDb() {
+	// Initialize the database service
+	dbService := services.NewDBService()
+
+	// Seed the database
+	db.SeedUsers(dbService.DB)
 }

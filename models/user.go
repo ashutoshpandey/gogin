@@ -14,3 +14,8 @@ type User struct {
 	Email       string    `gorm:"type:varchar(100);unique_index"`
 	DateOfBirth time.Time `gorm:"type:date"`
 }
+
+// TableName sets the table name for the User model
+func (User) TableName() string {
+	return "users"
+}

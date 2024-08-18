@@ -24,9 +24,9 @@ func LoadDbConfig() *DbConfig {
 
 	config := &DbConfig{
 		HOST:     getEnv("DB_HOST", ""),
-		PORT:     getEnv("DB_HOST", ""),
+		PORT:     getEnv("DB_PORT", ""),
 		USER:     getEnv("DB_USER", ""),
-		DATABASE: getEnv("DB_DATABASE", ""),
+		DATABASE: getEnv("DB_NAME", ""),
 		PASSWORD: getEnv("DB_PASSWORD", ""),
 	}
 

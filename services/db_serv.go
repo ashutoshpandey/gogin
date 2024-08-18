@@ -1,9 +1,14 @@
 package services
 
 import (
+	"fmt"
+	"log"
+
+	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 
 	"github.com/ashutoshpandey/gogin/config"
+	"github.com/ashutoshpandey/gogin/models"
 )
 
 // Initialization logic
@@ -17,21 +22,18 @@ type DbService struct {
 // NewDbService creates a new UserService
 func NewDBService() *DbService {
 	dbConfig := config.LoadDbConfig()
-	print(dbConfig)
-	/*
-		dsn := fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=disable",
-			dbConfig.HOST, dbConfig.PORT, dbConfig.USER, dbConfig.DATABASE, dbConfig.PASSWORD)
 
-		// Open the database connection
-		db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
-		if err != nil {
-			log.Fatalf("Failed to connect to database: %v", err)
-		}
+	dsn := fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=disable",
+		dbConfig.HOST, dbConfig.PORT, dbConfig.USER, dbConfig.DATABASE, dbConfig.PASSWORD)
 
-		// Migrate the schema
-		db.AutoMigrate(&models.User{})
+	// Open the database connection
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	if err != nil {
+		log.Fatalf("Failed to connect to database: %v", err)
+	}
 
-		return &DbService{DB: db}
-	*/
-	return nil
+	// Migrate the schema
+	db.AutoMigrate(&models.User{})
+
+	return &DbService{DB: db}
 }
