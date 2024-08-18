@@ -7,21 +7,19 @@ import (
 )
 
 // Config struct to hold all configuration variables
-type ServerConfig struct {
-	PORT            string
-	ALLOWED_ORIGINS string
+type AppConfig struct {
+	JWT_SECRET_KEY string
 }
 
 // LoadConfig loads environment variables from the .env file
-func LoadServerConfig() *ServerConfig {
+func LoadAppConfig() *AppConfig {
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatalf("Error loading .env file: %v", err)
 	}
 
-	config := &ServerConfig{
-		PORT:            getEnv("PORT", "8080"),
-		ALLOWED_ORIGINS: getEnv("ALLOWED_ORIGINS", "*"),
+	config := &AppConfig{
+		JWT_SECRET_KEY: getEnv("JWT_SECRET_KEY", "8080"),
 	}
 
 	return config

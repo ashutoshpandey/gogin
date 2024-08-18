@@ -7,14 +7,13 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"golang.org/x/crypto/bcrypt"
 
+	"github.com/ashutoshpandey/gogin/config"
 	"github.com/ashutoshpandey/gogin/dtos"
 	"github.com/ashutoshpandey/gogin/models"
 )
 
 // Initialization logic
 // --------------------------------------------------------
-
-var JWTSecretKey = []byte("your-secret-key")
 
 // LoginService is the interface that defines the methods related to user management.
 type LoginService struct {
@@ -49,6 +48,11 @@ func (loginService *LoginService) DoLogin(loginDto dtos.LoginDTO) (string, error
 		"userID": user.ID,
 		"exp":    time.Now().Add(time.Hour * 72).Unix(), // Token expires in 72 hours
 	})
+
+	appConfig := config.LoadAppConfig()
+
+	// JWTSecretKey is the secret key used for signing JWTs (should be same as in your LoginService)
+	var JWTSecretKey = []byte(appConfig.JWT_SECRET_KEY)
 
 	// Sign the token with the secret key
 	tokenString, err := token.SignedString(JWTSecretKey)
