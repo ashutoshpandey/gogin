@@ -9,10 +9,11 @@ import (
 // User represents the user model in the database
 type User struct {
 	gorm.Model
-	Name        string    `gorm:"type:varchar(100)"`
-	Password    string    `gorm:"type:varchar(512)"`
-	Email       string    `gorm:"type:varchar(100);unique_index"`
-	DateOfBirth time.Time `gorm:"type:date"`
+	Name          string    `gorm:"type:varchar(100)"`
+	Password      string    `gorm:"type:varchar(512)"`
+	Email         string    `gorm:"type:varchar(100);unique_index"`
+	DateOfBirth   time.Time `gorm:"type:date"`
+	RememberToken string    `gorm:"type:varchar(256);unique_index"`
 }
 
 // TableName sets the table name for the User model
