@@ -1,6 +1,6 @@
 module github.com/ashutoshpandey/gogin
 
-go 1.23.0
+go 1.23
 
 require github.com/jinzhu/gorm v1.9.16
 
